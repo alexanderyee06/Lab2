@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package ca.sait.servlets;
 
 import java.io.IOException;
@@ -55,7 +51,7 @@ public class AgeCalculatorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
     }
 
     /**
@@ -69,17 +65,29 @@ public class AgeCalculatorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String ageInput = request.getParameter("age");
+        String message;
+        if (ageInput != null)
+        {
+        try {
+            int age = Integer.parseInt(ageInput);
+            age++;
+      
+            message = String.format("Your age next birthday will be %d", age);
+     
+            request.setAttribute("message", message);
+        }
+        catch (Exception ex)
+        {
+            request.setAttribute("message", "You must give a valid number");
+        }
+        }
+        else
+        {
+            request.setAttribute("message", "You must give your current age");
+        }
+
+        
+        this.getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
