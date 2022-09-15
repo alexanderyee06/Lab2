@@ -67,36 +67,44 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
             throws ServletException, IOException {
         String firstInput = request.getParameter("firstNum");
         String secondInput = request.getParameter("secNum");
-        String message;
-        if (firstInput != null && secondInput != null)
-        {
-            try 
-            {
-                int firstNum = Integer.parseInt(firstInput);
-                int secNum = Integer.parseInt(secondInput);
+        String operation = request.getParameter("operation");
 
-                if (request.getParameter("operation").equals("add"))
-                {
-                    request.setAttribute("result", firstNum + secNum); 
-                }
-                else if (request.getParameter("operation").equals("subtract"))
-                {
-                    request.setAttribute("result", firstNum - secNum); 
-                }
-                else if (request.getParameter("operation").equals("multiply"))
-                {
-                    request.setAttribute("result", firstNum * secNum); 
-                }
-                else if (request.getParameter("operation").equals("divide"))
-                {
-                    request.setAttribute("result", (double) firstNum / secNum); 
-                }
+        double first = Double.parseDouble(firstInput);
+        double second = Double.parseDouble(secondInput);
+
+        Double result;
+
+        switch (operation) {
+            case "+": {
+                result = first + second;
+                break;
             }
-            catch (Exception ex)
-            {
-                request.setAttribute("result", "invalid");
+            case "-": {
+                result = second - first;
+                break;
+            }
+            case "%": {
+                result = first % second;
+                break;
+            }
+            case "*": {
+                result = first * second;
+                break;
+            }
+            default: {
+                result = Double.NaN;
+                break;
             }
         }
+        String message;
+
+        if (Double.isNaN(result)) { 
+            message = "Result is not a number";
+        } else {
+            message = String.format("%.4f", result);
+            message = result + "";
+        }
+        request.setAttribute("message", message);
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
     }

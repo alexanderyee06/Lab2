@@ -19,12 +19,12 @@
             <label for="secNum">Second: </label>
             <input type="number" name="secNum" id="secNum"><br>
             
-            <button type="submit" name="operation" value="add">+</button>
-            <button type="submit" name="operation" value="subtract">-</button>
-            <button type="submit" name="operation" value="multiply">*</button>
-            <button type="submit" name="operation" value="divide">%</button>
+            <button type="submit" name="operation" value="+">+</button>
+            <button type="submit" name="operation" value="-">-</button>
+            <button type="submit" name="operation" value="*">*</button>
+            <button type="submit" name="operation" value="%">%</button>
         </form>
-        <p>Result: ${result}</p><br>
+        <p>Result: <%= request.getAttribute("message")%></p><br>
         <a href="age">Age Calculator</a>
     </body>
 </html>
